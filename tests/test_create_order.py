@@ -1,6 +1,7 @@
 import helper
 from user_api import UserApi
 from order_api import OrderApi
+import data
 import allure
 
 
@@ -29,7 +30,7 @@ class TestCreateOrder:
         payload = {'ingredients': []}
         response = OrderApi.create_order(payload, access_token)
 
-        assert response.status_code == 400 and 'Ingredient ids must be provided' in response.text
+        assert response.status_code == 400 and data.text[400] in response.text
 
     @allure.title('Проверка ошибки при попытке создания заказа с неверным хешем ингредиентов')
     def test_create_order_invalid_hash(self, default_user):

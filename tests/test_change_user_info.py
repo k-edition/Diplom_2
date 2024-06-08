@@ -1,5 +1,6 @@
 from user_api import UserApi
 from helper import GenerateData
+import data
 import allure
 
 
@@ -22,7 +23,7 @@ class TestChangeUserInfo:
         update_payload = {'email': update_login}
         update_response = UserApi.change_user_info(update_payload, access_token)
 
-        assert update_response.status_code == 401 and 'You should be authorised' in update_response.text
+        assert update_response.status_code == 401 and data.text[401][1] in update_response.text
 
     @allure.title('Проверка изменения пароля авторизованного пользователя')
     def test_change_password_user_authorized(self, default_user):
@@ -41,7 +42,7 @@ class TestChangeUserInfo:
         update_payload = {'password': update_password}
         update_response = UserApi.change_user_info(update_payload, access_token)
 
-        assert update_response.status_code == 401 and 'You should be authorised' in update_response.text
+        assert update_response.status_code == 401 and data.text[401][1] in update_response.text
 
     @allure.title('Проверка изменения имени авторизованного пользователя')
     def test_change_name_user_authorized(self, default_user, get_payload):
@@ -60,7 +61,7 @@ class TestChangeUserInfo:
         update_payload = {'name': update_name}
         update_response = UserApi.change_user_info(update_payload, access_token)
 
-        assert update_response.status_code == 401 and 'You should be authorised' in update_response.text
+        assert update_response.status_code == 401 and data.text[401][1] in update_response.text
 
     @allure.title('Проверка изменения логина на логин, который уже используется')
     def test_change_login_to_exist_login(self, default_user, remove_user):
@@ -74,4 +75,4 @@ class TestChangeUserInfo:
         update_response = UserApi.change_user_info(update_payload, access_token_1)
         remove_user(access_token_2)
 
-        assert update_response.status_code == 403 and 'User with such email already exists' in update_response.text
+        assert update_response.status_code == 403 and data.text[403][2] in update_response.text

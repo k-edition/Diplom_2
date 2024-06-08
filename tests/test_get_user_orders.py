@@ -1,5 +1,6 @@
 from user_api import UserApi
 from order_api import OrderApi
+import data
 import allure
 
 
@@ -21,4 +22,4 @@ class TestGetUserOrders:
             create_order(access_token)
             response = OrderApi.get_user_orders(None)
 
-            assert response.status_code == 401 and '"You should be authorised' in response.text
+            assert response.status_code == 401 and data.text[401][1] in response.text

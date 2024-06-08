@@ -1,4 +1,5 @@
 from user_api import UserApi
+import data
 import allure
 
 
@@ -15,7 +16,7 @@ class TestLoginUser:
         default_user['email'] = invalid_login
         login_response = UserApi.login_user(default_user)
 
-        assert login_response.status_code == 401 and 'email or password are incorrect' in login_response.text
+        assert login_response.status_code == 401 and data.text[401][0] in login_response.text
 
     @allure.title('Проверка ошибки при попытке авторизации пользователя c неверным паролем')
     def test_login_user_with_invalid_password(self, default_user):
@@ -23,4 +24,4 @@ class TestLoginUser:
         default_user['password'] = invalid_password
         login_response = UserApi.login_user(default_user)
 
-        assert login_response.status_code == 401 and 'email or password are incorrect' in login_response.text
+        assert login_response.status_code == 401 and data.text[401][0] in login_response.text
