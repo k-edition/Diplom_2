@@ -1,5 +1,4 @@
 import pytest
-import data
 import helper
 from user_api import UserApi
 from order_api import OrderApi
@@ -7,7 +6,7 @@ from order_api import OrderApi
 
 @pytest.fixture(scope='function')
 def get_payload():
-    payload = data.generate_payload_for_user()
+    payload = helper.GenerateData.generate_payload_for_user()
 
     return payload
 
@@ -34,7 +33,7 @@ def remove_user(request):
 @pytest.fixture(scope='function')
 def create_order(request):
     def _create_order(token):
-        payload = {'ingredients': data.generate_payload_for_order()}
+        payload = {'ingredients': helper.GenerateData.generate_payload_for_order()}
         order_response = OrderApi.create_order(payload, token)
         order_number = order_response.json()['order']['number']
         return order_number

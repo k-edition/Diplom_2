@@ -1,4 +1,3 @@
-import data
 import helper
 from user_api import UserApi
 from order_api import OrderApi
@@ -10,7 +9,7 @@ class TestCreateOrder:
     def test_create_order_authorized_user(self, default_user):
         login_response = UserApi.login_user(default_user)
         access_token = login_response.json()['accessToken']
-        payload = {'ingredients': data.generate_payload_for_order()}
+        payload = {'ingredients': helper.GenerateData.generate_payload_for_order()}
         response = OrderApi.create_order(payload, access_token)
 
         assert response.status_code == 200 and response.json()['order']['number'] is not None
@@ -18,7 +17,7 @@ class TestCreateOrder:
     @allure.title('Проверка ошибки при попытке создания заказа неавторизованным пользователем')
     def test_create_order_unauthorized_user(self):
         access_token = None
-        payload = {'ingredients': data.generate_payload_for_order()}
+        payload = {'ingredients': helper.GenerateData.generate_payload_for_order()}
         response = OrderApi.create_order(payload, access_token)
 
         assert response.status_code != 200  # в требованиях к API отсутствует код и текст ошибки для этого случая
@@ -36,8 +35,7 @@ class TestCreateOrder:
     def test_create_order_invalid_hash(self, default_user):
         login_response = UserApi.login_user(default_user)
         access_token = login_response.json()['accessToken']
-        ingredients = data.generate_payload_for_order()
-        invalid_ingredients = helper.ModifyData.modify_ingredients_for_order(ingredients)
+        invalid_ingredients = helper.ModifyData.modify_ingredients_for_order()
         payload = {'ingredients': invalid_ingredients}
         response = OrderApi.create_order(payload, access_token)
 

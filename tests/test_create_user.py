@@ -1,5 +1,5 @@
 from user_api import UserApi
-import helper
+from helper import ModifyData
 import allure
 
 
@@ -23,21 +23,21 @@ class TestCreateUser:
 
     @allure.title('Проверка ошибки при попытке создания пользователя c пустым email')
     def test_create_user_empty_email(self):
-        mod_payload = helper.ModifyData.modify_create_user_payload('email', '')
+        mod_payload = ModifyData.modify_create_user_payload('email', '')
         response = UserApi.create_user(mod_payload)
 
         assert response.status_code == 403 and "Email, password and name are required fields" in response.text
 
     @allure.title('Проверка ошибки при попытке создания пользователя c пустым паролем')
     def test_create_user_empty_password(self):
-        mod_payload = helper.ModifyData.modify_create_user_payload('password', '')
+        mod_payload = ModifyData.modify_create_user_payload('password', '')
         response = UserApi.create_user(mod_payload)
 
         assert response.status_code == 403 and "Email, password and name are required fields" in response.text
 
     @allure.title('Проверка ошибки при попытке создания пользователя c пустым именем')
     def test_create_user_empty_name(self):
-        mod_payload = helper.ModifyData.modify_create_user_payload('name', '')
+        mod_payload = ModifyData.modify_create_user_payload('name', '')
         response = UserApi.create_user(mod_payload)
 
         assert response.status_code == 403 and "Email, password and name are required fields" in response.text

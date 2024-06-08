@@ -1,5 +1,5 @@
 from user_api import UserApi
-import data
+from helper import GenerateData
 import allure
 
 
@@ -66,7 +66,7 @@ class TestChangeUserInfo:
     def test_change_login_to_exist_login(self, default_user, remove_user):
         login_response = UserApi.login_user(default_user)
         access_token_1 = login_response.json()['accessToken']
-        payload_second_user = data.generate_payload_for_user()
+        payload_second_user = GenerateData.generate_payload_for_user()
         response_second_user = UserApi.create_user(payload_second_user)
         access_token_2 = response_second_user.json()['accessToken']
         update_login = payload_second_user['email']
